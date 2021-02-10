@@ -57,11 +57,11 @@ git clone -b RunIIfinal https://github.com/tomcornelis/EgammaAnalysis-TnPTreePro
 scram b -j8
 ```
 
-
 ### 2. Try-out
 You can find the cmsRun executable in EgammaAnalysis/TnPTreeProducer/python:
 ```
-cmsRun TnPTreeProducer_cfg.py isMC=True doTrigger=True era=2018
+cd EgammaAnalysis/TnPTreeProducer/python/
+cmsRun TnPTreeProducer_cfg.py isMC=True doTrigger=True era=UL2018
 ```
 Check [TnPTreeProducer\_cfg.py](python/TnPTreeProducer_cfg.py) for all available options. Update the code if you need to implement custom-made recipes.
 
