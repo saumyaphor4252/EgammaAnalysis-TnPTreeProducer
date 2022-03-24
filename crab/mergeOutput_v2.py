@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-# @Author: Ram Krishna Sharma
-# @Author Email: ram.krishna.sharma@cern.ch
-# @Date:   2021-05-26
-# @Last Modified by:   Ram Krishna Sharma
-# @Last Modified time: 2021-05-26
-
 #!/bin/env python
 import os, glob, ROOT, subprocess
 
