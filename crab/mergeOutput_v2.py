@@ -30,7 +30,8 @@ for eraDir in glob.glob(os.path.join(mainOutputDir, '2016*')):
     print("era:",era)
     for crabDir in glob.glob(os.path.join(mainOutputDir, era, '*/*/*')):
         print "=="*51
-        targetFile   = os.path.join(eraDir, 'merged', crabDir.split(era + '_')[-1] + '.root')
+        #targetFile   = os.path.join(eraDir, 'merged', crabDir.split(era + '_')[-1] + '.root')
+        targetFile   = os.path.join('./', 'merged', crabDir.split(era + '_')[-1] + '.root')
         filesToMerge = glob.glob(os.path.join(crabDir, '*/*/*.root'))
         print "crabDir: ",crabDir
         print "targetFile: ",targetFile
