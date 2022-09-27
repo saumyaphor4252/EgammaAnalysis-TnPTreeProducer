@@ -34,9 +34,11 @@ ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-03-03/*/merged/*L1matche
 
 ### UL2017 and UL2018
 For ultra-legacy  we have tnpEleTrig, tnpEleIDs and tnpPhoIDs trees available at:
-
-```bash
-ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/*/merged/
+```
+ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2018/merged
+ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2017/merged
+ls /eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016postVFP/merged
+ls /eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016preVFP/merged
 ```
 
 
@@ -47,7 +49,7 @@ ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/*/merged/
 cmsrel CMSSW_10_2_22
 cd CMSSW_10_2_22/src
 cmsenv
-git clone -b RunIIfinal https://github.com/tomcornelis/EgammaAnalysis-TnPTreeProducer EgammaAnalysis/TnPTreeProducer
+git clone -b RunIIfinal git@github.com:cms-egamma/EgammaAnalysis-TnPTreeProducer.git EgammaAnalysis/TnPTreeProducer
 scram b -j8
 ```
 
@@ -57,7 +59,7 @@ scram b -j8
 cmsrel CMSSW_10_6_13
 cd CMSSW_10_6_13/src
 cmsenv
-git clone -b RunIIfinal https://github.com/tomcornelis/EgammaAnalysis-TnPTreeProducer EgammaAnalysis/TnPTreeProducer
+git clone -b RunIIfinal git@github.com:cms-egamma/EgammaAnalysis-TnPTreeProducer.git EgammaAnalysis/TnPTreeProducer
 scram b -j8
 ```
 
@@ -100,4 +102,3 @@ flexibility to explore different workingpoints: you can simply put a cut on thes
 ## Description of variables
 
 Description of some of variables in the output tree is given [here](VariablesInfo.md).
-
