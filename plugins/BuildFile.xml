@@ -1,5 +1,3 @@
-
-
 <library   name="EgammaAnalysisTnPTreeProducer_plugins" file="*.cc">
   <use   name="FWCore/Framework"/>
   <use   name="FWCore/PluginManager"/>

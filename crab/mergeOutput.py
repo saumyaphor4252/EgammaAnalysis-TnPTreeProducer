@@ -2,7 +2,7 @@
 import os, glob, ROOT, subprocess
 
 submitVersion = "2022-03-27"
-mainOutputDir = '/eos/cms/store/group/phys_egamma/ec/tnpTuples/%s/%s' % ("rasharma", submitVersion) #note that the access to this repository is restricted
+mainOutputDir = '/eos/cms/store/group/phys_egamma/ec/tnpTuples/%s/%s' % (os.environ['USER'], submitVersion) #note that the access to this repository is restricted
 
 print("submitVersion: %s"%submitVersion)
 print("mainOutputDir: %s"%mainOutputDir)
@@ -31,7 +31,6 @@ for eraDir in glob.glob(os.path.join(mainOutputDir, '2016*')):
     for crabDir in glob.glob(os.path.join(mainOutputDir, era, '*/*/*')):
         print "=="*51
         targetFile   = os.path.join(eraDir, 'merged', crabDir.split(era + '_')[-1] + '.root')
-        #targetFile   = os.path.join('./', 'merged', crabDir.split(era + '_')[-1] + '.root')
         filesToMerge = glob.glob(os.path.join(crabDir, '*/*/*.root'))
         print "crabDir: ",crabDir
         print "targetFile: ",targetFile
