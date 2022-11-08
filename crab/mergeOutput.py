@@ -1,8 +1,8 @@
 #!/bin/env python
 import os, glob, ROOT, subprocess
 
-submitVersion = "2021-02-10"
-mainOutputDir = '/eos/cms/store/group/phys_egamma/tnpTuples/%s/%s' % (os.environ['USER'], submitVersion)
+submitVersion = "2022-03-27"
+mainOutputDir = '/eos/cms/store/group/phys_egamma/ec/tnpTuples/%s/%s' % (os.environ['USER'], submitVersion) #note that the access to this repository is restricted. You might want to create your own
 
 print("submitVersion: %s"%submitVersion)
 print("mainOutputDir: %s"%mainOutputDir)
@@ -21,7 +21,7 @@ def isValidRootFile(fname):
     finally:
         f.Close()
 
-for eraDir in glob.glob(os.path.join(mainOutputDir, 'UL2016*')):
+for eraDir in glob.glob(os.path.join(mainOutputDir, '2016*')): #2016* or whatever your output folder is named
     era = eraDir.split('/')[-1]
     try:
         os.makedirs(os.path.join(eraDir, 'merged'))
