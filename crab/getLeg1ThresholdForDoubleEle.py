@@ -28,7 +28,7 @@ def getLeg1ThresholdForDoubleEle(year, hltTrigger='HLT_Ele23_Ele12_CaloIdL_Track
     lumis = LumiList(filename = json) + LumiList(filename = jsonToMerge)
     lumis.writeJSON(fileName=json)
 
-  prescalePage = 'https://tomc.web.cern.ch/tomc/triggerPrescales/%s/' % year
+  prescalePage = 'https://ram1123.github.io/display_TriggerPreScale/%s/' % year
   dirToStore   = os.path.join('prescaleInformation', year, hltTrigger)
   download(prescalePage + hltTrigger + '.php', dirToStore)
   with open(os.path.join(dirToStore, hltTrigger + '.php')) as f:
