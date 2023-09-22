@@ -112,24 +112,24 @@ EleProbeVariablesToStore = cms.PSet(
     el_relIso03_dB   = cms.string("(pfIsolationVariables().sumChargedHadronPt + max(pfIsolationVariables().sumNeutralHadronEt + pfIsolationVariables().sumPhotonEt - 0.5 * pfIsolationVariables().sumPUPt,0.0)) / pt() "),
 
     # tracker Variabels
-    el_tk_pt        = cms.string("gsfTrack().ptMode"),
-    el_tk_eta       = cms.string("gsfTrack().etaMode"),
-    el_tk_phi       = cms.string("gsfTrack().phiMode"),
+    el_tk_pt         = cms.string("gsfTrack().ptMode"),
+    el_tk_eta        = cms.string("gsfTrack().etaMode"),
+    el_tk_phi        = cms.string("gsfTrack().phiMode"),
     el_fbrem         = cms.string("fbrem"),
     el_mHits         = cms.InputTag("eleVarHelper:missinghits"),
-    el_gsfHits         = cms.InputTag("eleVarHelper:gsfhits"),
+    el_gsfHits       = cms.InputTag("eleVarHelper:gsfhits"),
     el_dz            = cms.InputTag("eleVarHelper:dz"),
     el_dxy           = cms.InputTag("eleVarHelper:dxy"),
     el_sip           = cms.InputTag("eleVarHelper:sip"),
     el_3charge       = cms.string("chargeInfo().isGsfCtfScPixConsistent"),
     el_ecalDriven    = cms.string("ecalDrivenSeed"),
 
-    el_gsfhits        = cms.string("gsfTrack().hitPattern().trackerLayersWithMeasurement()"),
-    el_gsfchi2        = cms.string("gsfTrack().normalizedChi2()"),
-    el_kfhits         = cms.InputTag("eleVarHelper:kfhits"),
-    el_kfchi2         = cms.InputTag("eleVarHelper:kfchi2"),
-    el_lost_hits      = cms.string("gsfTrack().lost()"),
-    el_found_hits     = cms.string("gsfTrack().found()"), # sometimes called valid_hits
+    el_gsfhits         = cms.string("gsfTrack().hitPattern().trackerLayersWithMeasurement()"),
+    el_gsfchi2         = cms.string("gsfTrack().normalizedChi2()"),
+    el_kfhits          = cms.InputTag("eleVarHelper:kfhits"),
+    el_kfchi2          = cms.InputTag("eleVarHelper:kfchi2"),
+    el_lost_hits       = cms.string("gsfTrack().lost()"),
+    el_found_hits      = cms.string("gsfTrack().found()"), # sometimes called valid_hits
     el_convVtxFitProb  = cms.InputTag("eleVarHelper:convVtxFitProb"),
 
     el_hasMatchedConversion = cms.InputTag("eleVarHelper:hasMatchedConversion"),
@@ -214,14 +214,18 @@ TagVariablesToStore = cms.PSet(
     Ele_e      = cms.string("energy"),
     Ele_q      = cms.string("charge"),
     Ele_3charge = cms.string("chargeInfo().isGsfCtfScPixConsistent"),
+
+    # seed Gain and r9 for the SS corrections
+    Ele_5x5_r9        = cms.string("full5x5_showerShape().r9"),
+    Ele_seedGain      = cms.InputTag("eleVarHelper:seedGain"),
     
     ## super cluster quantities
     sc_e      = cms.string("superCluster.energy"),
     sc_et     = cms.string("superCluster.energy*sin(superClusterPosition.theta)"),    
     sc_eta    = cms.string("-log(tan(superClusterPosition.theta/2))"),
     sc_abseta = cms.string("abs(-log(tan(superCluster.position.theta/2)))"),
-
-#    Ele_mHits          = cms.InputTag("eleVarHelper:missinghits"),
+    
+    ## Ele_mHits          = cms.InputTag("eleVarHelper:missinghits"),
     Ele_dz              = cms.InputTag("eleVarHelper:dz"),
     Ele_dxy             = cms.InputTag("eleVarHelper:dxy"),
     el_sip              = cms.InputTag("eleVarHelper:sip"),
