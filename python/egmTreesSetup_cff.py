@@ -203,7 +203,6 @@ def setSequences(process, options):
     if options['addSUSY'] : process.init_sequence += process.susy_sequence_requiresVID
 
 
-
 ###################################################################################
 ################  --- tree Maker setup
 ###################################################################################

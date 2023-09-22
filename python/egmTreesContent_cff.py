@@ -138,6 +138,8 @@ EleProbeVariablesToStore = cms.PSet(
     el_ep             = cms.string("eSuperClusterOverP()"),
     el_eelepout       = cms.string("eEleClusterOverPout()"),
     el_IoEmIop        = cms.InputTag("eleVarHelper:ioemiop"),
+    el_seedGain       = cms.InputTag("eleVarHelper:seedGain"),
+    #csev
 
     )
 
@@ -146,6 +148,8 @@ PhoProbeVariablesToStore = cms.PSet(
     ph_abseta = cms.string("abs(eta)"),
     ph_et     = cms.string("et"),
     ph_e      = cms.string("energy"),
+    ph_hasPixelSeed = cms.string("hasPixelSeed()"),
+    ph_passElectronVeto = cms.string("passElectronVeto()"),
 
 ## super cluster quantities
     ph_sc_energy    = cms.string("superCluster.energy"),
