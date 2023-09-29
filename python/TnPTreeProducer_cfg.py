@@ -108,7 +108,7 @@ if varOptions.GT == "auto":
     if options['era'] == 'UL2018': options['GLOBALTAG'] = '106X_dataRun2_v28'
     #if options['era'] == '2022': options['GLOBALTAG'] = '123X_mcRun3_2021_realistic_v15'
     if options['era'] == '2022': options['GLOBALTAG'] = 'auto:phase1_2022_realistic' #update GT for 2022 from PDMV
-    if options['era'] == '2022': options['GLOBALTAG'] = 'auto:phase1_2023_realistic' #update GT for 2023 from PDMV
+    if options['era'] == '2023': options['GLOBALTAG'] = 'auto:phase1_2023_realistic' #update GT for 2023 from PDMV
   else:
     if options['era'] == '2016':   options['GLOBALTAG'] = '94X_dataRun2_v10'
     if options['era'] == '2017':   options['GLOBALTAG'] = '94X_dataRun2_v11'
@@ -119,7 +119,7 @@ if varOptions.GT == "auto":
     if options['era'] == 'UL2018': options['GLOBALTAG'] = '106X_upgrade2018_realistic_v11_L1v1'
     #if options['era'] == '2022': options['GLOBALTAG'] = '123X_dataRun3_Prompt_v12'
     if options['era'] == '2022': options['GLOBALTAG'] = '124X_dataRun3_Prompt_v10' #update GT for 2022 from PDMV
-    if options['era'] == '2022': options['GLOBALTAG'] = '130X_dataRun3_Prompt_v4' #update GT for 2023 from PDMV
+    if options['era'] == '2023': options['GLOBALTAG'] = '130X_dataRun3_Prompt_v4' #update GT for 2023 from PDMV
 else:
   options['GLOBALTAG'] = varOptions.GT
 
