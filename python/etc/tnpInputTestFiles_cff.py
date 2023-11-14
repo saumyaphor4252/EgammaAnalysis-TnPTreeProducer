@@ -7,6 +7,16 @@ filesMiniAOD_2018 = {
     'data' : cms.untracked.vstring('file:/eos/cms/store/group/phys_egamma/tnpTuples/testFiles/Egamma-Run2018A-17Sep2018-v2.root'),
 }
 
+filesMiniAOD_2022 = {
+    'mc' :   cms.untracked.vstring(''),
+    'data' : cms.untracked.vstring('root://cmsxrootd.fnal.gov//store/data/Run2022B/EGamma/MINIAOD/PromptReco-v1/000/355/558/00000/92629520-53fb-4f1d-8465-a15b5504e149.root'),
+}
+
+filesMiniAOD_2023 = {
+    'mc' :   cms.untracked.vstring(''),
+    'data' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/data/Run2023D/EGamma0/MINIAOD/PromptReco-v2/000/370/776/00000/2744e097-88da-4e48-9740-d0bfe1d54fce.root'),
+}
+
 filesMiniAOD_2017 = {
     'mc' :   cms.untracked.vstring('file:/eos/cms/store/group/phys_egamma/tnpTuples/testFiles/RunIIFall17MiniAODv2-DYJetsToLL_M-50.root'),
     'data' : cms.untracked.vstring('file:/eos/cms/store/group/phys_egamma/tnpTuples/testFiles/SingleElectron-Run2017B-31Mar2018-v1.root'),
@@ -59,4 +69,9 @@ filesAOD_UL2018 = {
 filesAOD_UL2017 = {
     'mc' :   cms.untracked.vstring('file:/eos/cms/store/group/phys_egamma/tnpTuples/testFiles/RunIISummer19UL17RECO-DYToEE_M-50.root'),
     'data' : cms.untracked.vstring('file:/eos/cms/store/group/phys_egamma/tnpTuples/testFiles/SingleElectron-Run2017F-09Aug2019_UL2017-AOD.root'),
+}
+
+filesAOD_2022 = {
+    'mc':   cms.untracked.vstring('file:../test/data/f10037a7-aa8b-4c35-9c7a-be28ecf22736.root'),
+    'data': cms.untracked.vstring('file:../test/data/10037a7-aa8b-4c35-9c7a-be28ecf22736.root')
 }

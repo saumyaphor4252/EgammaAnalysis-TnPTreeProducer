@@ -13,21 +13,24 @@ def setIDs(process, options):
 
     # define which IDs we want to produce
     my_id_modules = [
-        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
-        'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff',
-        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff',
-        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
-        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
+        #'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
+        #'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
+        #'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff',
+        #'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff',
+        #'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+        #'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff',
         'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V2_cff',
         'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
-        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff'
+        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
+        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_RunIIIWinter22_iso_V1_cff',
+        'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_RunIIIWinter22_noIso_V1_cff',
+        'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Winter22_122X_V1_cff'
        ]
 
     ### add only miniAOD supported IDs
-    if not options['useAOD'] :
-        my_id_modules.append( 'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronHLTPreselecition_Summer16_V1_cff' )
-        my_id_modules.append( 'EgammaAnalysis.TnPTreeProducer.Identification.cutBasedDoubleElectronHLTPreselecition_Summer16_V1_cff')
+    #if not options['useAOD'] :
+        #my_id_modules.append( 'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronHLTPreselecition_Summer16_V1_cff' )
+        #my_id_modules.append( 'EgammaAnalysis.TnPTreeProducer.Identification.cutBasedDoubleElectronHLTPreselecition_Summer16_V1_cff')
 
     for idmod in my_id_modules:
         setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
@@ -35,8 +38,8 @@ def setIDs(process, options):
     process.egmGsfElectronIDs.physicsObjectSrc            = cms.InputTag(options['ELECTRON_COLL'])
     process.electronMVAValueMapProducer.src               = cms.InputTag(options['ELECTRON_COLL'])
 
-    if not isReleaseAbove(10, 6): # only for CMSSW_10_2
-      process.electronRegressionValueMapProducer.srcMiniAOD = cms.InputTag(options['ELECTRON_COLL'])
+    #if not isReleaseAbove(10, 6): # only for CMSSW_10_2
+      #process.electronRegressionValueMapProducer.src = cms.InputTag(options['ELECTRON_COLL'])
 
     #
     # One tag module --> cut based tight 94X V2
@@ -44,7 +47,7 @@ def setIDs(process, options):
     process.tagEleCutBasedTight = cms.EDProducer('GsfElectronSelectorByValueMap' if options['useAOD'] else 'PatElectronSelectorByValueMap',
                                                      input     = cms.InputTag("goodElectrons"),
                                                      cut       = cms.string(options['ELECTRON_TAG_CUTS']),
-                                                     selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-tight"),
+                                                     selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-RunIIIWinter22-V1-tight"),
                                                      id_cut    = cms.bool(True)
                                                 )
 
@@ -72,25 +75,32 @@ def setIDs(process, options):
 
 
     probeSequence = cms.Sequence()
-    if not options['useAOD']:
-      addNewProbeModule(probeSequence, 'HLTsafe',          'egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1')
-      addNewProbeModule(probeSequence, 'DoubleEleHLTsafe', 'egmGsfElectronIDs:cutBasedDoubleElectronHLTPreselection-Summer16-V1')
+    #if not options['useAOD']:
+      #addNewProbeModule(probeSequence, 'HLTsafe',          'egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1')
+      #addNewProbeModule(probeSequence, 'DoubleEleHLTsafe', 'egmGsfElectronIDs:cutBasedDoubleElectronHLTPreselection-Summer16-V1')
 
     for wp in ['Veto', 'Loose', 'Medium', 'Tight']:
-      addNewProbeModule(probeSequence, 'CutBased%s80X' % wp,   'egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-%s' % wp.lower())
-      addNewProbeModule(probeSequence, 'CutBased%s94X' % wp,   'egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-%s' % wp.lower())
+      #addNewProbeModule(probeSequence, 'CutBased%s80X' % wp,   'egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-%s' % wp.lower())
+      #addNewProbeModule(probeSequence, 'CutBased%s94X' % wp,   'egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-%s' % wp.lower())
       addNewProbeModule(probeSequence, 'CutBased%s94XV2' % wp, 'egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-%s' % wp.lower())
+      addNewProbeModule(probeSequence, 'CutBased%s122XV1' % wp, 'egmGsfElectronIDs:cutBasedElectronID-RunIIIWinter22-V1-%s' % wp.lower()) # Run III IDs
 
-    for wp in ['wp80', 'wp90']:
-      addNewProbeModule(probeSequence, 'MVA80X%s' %wp, 'egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-%s' % wp)
+    #for wp in ['wp80', 'wp90']:
+      #addNewProbeModule(probeSequence, 'MVA80X%s' %wp, 'egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-%s' % wp)
 
     for wp in ['wp80', 'wp90', 'wpLoose']:
-      addNewProbeModule(probeSequence, 'MVA94X%snoiso' %wp,   'egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-%s' % wp)
-      addNewProbeModule(probeSequence, 'MVA94X%siso' %wp,     'egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-%s' % wp)
+      #addNewProbeModule(probeSequence, 'MVA94X%snoiso' %wp,   'egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-%s' % wp)
+      #addNewProbeModule(probeSequence, 'MVA94X%siso' %wp,     'egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-%s' % wp)
       addNewProbeModule(probeSequence, 'MVA94X%snoisoV2' %wp, 'egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-%s' % wp)
       addNewProbeModule(probeSequence, 'MVA94X%sisoV2' %wp,   'egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-%s' % wp)
+      
+      if wp=='wpLoose': continue
+      addNewProbeModule(probeSequence, 'MVA122X%snoisoV1' %wp, 'egmGsfElectronIDs:mvaEleID-RunIIIWinter22-noIso-V1-%s' % wp)
+      addNewProbeModule(probeSequence, 'MVA122X%sisoV1' %wp, 'egmGsfElectronIDs:mvaEleID-RunIIIWinter22-iso-V1-%s' % wp)
 
     addNewProbeModule(probeSequence, 'MVA94XwpHZZisoV2', 'egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wpHZZ')
+
+
 
     #
     # For cut based 94X V2, also check partial cuts
@@ -98,10 +108,10 @@ def setIDs(process, options):
     allCuts = ["MinPt", "GsfEleSCEtaMultiRange", "GsfEleDEtaInSeed", "GsfEleDPhiIn", "GsfEleFull5x5SigmaIEtaIEta",
                "GsfEleHadronicOverEMEnergyScaled", "GsfEleEInverseMinusPInverse", "GsfEleRelPFIsoScaled", "GsfEleConversionVeto", "GsfEleMissingHits"]
 
-    for cut in allCuts:
-      otherCuts = cms.vstring([i + 'Cut_0' for i in allCuts if i!=cut])
-      for wp in ['Veto', 'Loose', 'Medium', 'Tight']:
-        addNewProbeModule(probeSequence, 'CutBased%s94XV2%sCut' % (wp, cut), 'egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-%s' % wp.lower(), cutNamesToMask=otherCuts)
+    #for cut in allCuts:
+      #otherCuts = cms.vstring([i + 'Cut_0' for i in allCuts if i!=cut])
+      #for wp in ['Veto', 'Loose', 'Medium', 'Tight']:
+        #addNewProbeModule(probeSequence, 'CutBased%s94XV2%sCut' % (wp, cut), 'egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-%s' % wp.lower(), cutNamesToMask=otherCuts)
 
     #
     # Optional: SUSY variables (broken?)
