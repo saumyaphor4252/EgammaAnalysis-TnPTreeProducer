@@ -20,16 +20,16 @@ def registerOption(optionName, defaultValue, description, optionType=VarParsing.
 registerOption('isMC',        False,    'Use MC instead of data')
 registerOption('isAOD',       False,    'Use AOD samples instead of miniAOD')
 registerOption('is80X',       False,    'Compatibility to run on old 80X files')
-registerOption('doEleID',     True,     'Include tree for electron ID SF')
-registerOption('doPhoID',     True,     'Include tree for photon ID SF')
-registerOption('doTrigger',   True,     'Include tree for trigger SF')
+registerOption('doEleID',     False,     'Include tree for electron ID SF')
+registerOption('doPhoID',     False,     'Include tree for photon ID SF')
+registerOption('doTrigger',   False,     'Include tree for trigger SF')
 registerOption('doRECO',      False,    'Include tree for Reco SF (requires AOD)')
 registerOption('calibEn',     False,    'Use EGM smearer to calibrate photon and electron energy')
 registerOption('includeSUSY', False,    'Add also the variables used by SUSY')
 
 registerOption('HLTname',     'HLT',    'HLT process name (default HLT)', optionType=VarParsing.varType.string) # HLTname was HLT2 in now outdated reHLT samples
 registerOption('GT',          'auto',   'Global Tag to be used', optionType=VarParsing.varType.string)
-registerOption('era',         '2018',   'Data-taking era: 2016, 2017, 2018, UL2017 or UL2018', optionType=VarParsing.varType.string)
+registerOption('era',         '2018',   'Data-taking era: 2016, 2017, 2018, 2022, 2023, UL2017 or UL2018', optionType=VarParsing.varType.string)
 registerOption('logLevel',    'INFO',   'Loglevel: could be DEBUG, INFO, WARNING, ERROR', optionType=VarParsing.varType.string)
 
 registerOption('L1Threshold',  0,       'Threshold for L1 matched objects', optionType=VarParsing.varType.int)
@@ -47,10 +47,10 @@ if varOptions.isAOD and varOptions.doTrigger:  log.warning('AOD is not supported
 if not varOptions.isAOD and varOptions.doRECO: log.warning('miniAOD is not supported for doRECO, please consider using AOD')
 
 from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
-if varOptions.era not in ['2016', '2017', '2018', 'UL2016preVFP', 'UL2016postVFP', 'UL2017', 'UL2018']: 
+if varOptions.era not in ['2016', '2017', '2018', '2022', '2023', 'UL2016preVFP', 'UL2016postVFP', 'UL2017', 'UL2018']: 
   log.error('%s is not a valid era' % varOptions.era)
-if ('UL' in varOptions.era)!=(isReleaseAbove(10, 6)):
-  log.error('Inconsistent release for era %s. Use CMSSW_10_6_X for UL and CMSSW_10_2_X for rereco' % varOptions.era)
+#if ('UL' in varOptions.era)!=(isReleaseAbove(10, 6)):
+  #log.error('Inconsistent release for era %s. Use CMSSW_10_6_X for UL and CMSSW_10_2_X for rereco' % varOptions.era)
 
 if varOptions.includeSUSY: log.info('Including variables for SUSY')
 if varOptions.doEleID:     log.info('Producing electron SF tree')
@@ -92,6 +92,8 @@ options['addSUSY']              = varOptions.includeSUSY and not options['useAOD
 
 options['OUTPUT_FILE_NAME']     = "TnPTree_%s.root" % ("mc" if options['isMC'] else "data")
 
+log.info('outputfile: %s' % options['OUTPUT_FILE_NAME'])
+
 #################################################
 # Settings for global tag
 #################################################
@@ -104,6 +106,9 @@ if varOptions.GT == "auto":
     if options['era'] == 'UL2016postVFP': options['GLOBALTAG'] = '106X_mcRun2_asymptotic_v15'
     if options['era'] == 'UL2017': options['GLOBALTAG'] = '106X_dataRun2_v28'
     if options['era'] == 'UL2018': options['GLOBALTAG'] = '106X_dataRun2_v28'
+    #if options['era'] == '2022': options['GLOBALTAG'] = '123X_mcRun3_2021_realistic_v15'
+    if options['era'] == '2022': options['GLOBALTAG'] = 'auto:phase1_2022_realistic' #update GT for 2022 from PDMV
+    if options['era'] == '2023': options['GLOBALTAG'] = 'auto:phase1_2023_realistic' #update GT for 2023 from PDMV
   else:
     if options['era'] == '2016':   options['GLOBALTAG'] = '94X_dataRun2_v10'
     if options['era'] == '2017':   options['GLOBALTAG'] = '94X_dataRun2_v11'
@@ -112,8 +117,13 @@ if varOptions.GT == "auto":
     if options['era'] == 'UL2016postVFP': options['GLOBALTAG'] = '106X_dataRun2_v32'
     if options['era'] == 'UL2017': options['GLOBALTAG'] = '106X_mc2017_realistic_v7'
     if options['era'] == 'UL2018': options['GLOBALTAG'] = '106X_upgrade2018_realistic_v11_L1v1'
+    #if options['era'] == '2022': options['GLOBALTAG'] = '123X_dataRun3_Prompt_v12'
+    if options['era'] == '2022': options['GLOBALTAG'] = '124X_dataRun3_Prompt_v10' #update GT for 2022 from PDMV
+    if options['era'] == '2023': options['GLOBALTAG'] = '130X_dataRun3_Prompt_v4' #update GT for 2023 from PDMV
 else:
   options['GLOBALTAG'] = varOptions.GT
+
+log.info('Globaltag: %s' % options['GLOBALTAG'])
 
 #################################################
 # Settings for trigger tag and probe measurement
@@ -152,6 +162,28 @@ elif '2018'  in options['era']:
                                    "passHltDoubleEle33CaloIdLMWUnsLeg" :                cms.vstring("hltDiEle33CaloIdLMWPMS2UnseededFilter"),
                                   }
 
+elif '2022'  in options['era']:
+  options['TnPPATHS']           = cms.vstring("HLT_Ele32_WPTight_Gsf_v*")
+  options['TnPHLTTagFilters']   = cms.vstring("hltEle32WPTightGsfTrackIsoFilter")
+  options['TnPHLTProbeFilters'] = cms.vstring()
+  options['HLTFILTERSTOMEASURE']= {"passHltEle32WPTightGsf" :                           cms.vstring("hltEle32WPTightGsfTrackIsoFilter"),
+                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg1L1match" : cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter"),
+                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg2" :        cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"),
+                                   "passHltDoubleEle33CaloIdLMWSeedLegL1match" :        cms.vstring("hltEle33CaloIdLMWPMS2Filter"),
+                                   "passHltDoubleEle33CaloIdLMWUnsLeg" :                cms.vstring("hltDiEle33CaloIdLMWPMS2UnseededFilter"),
+                                  }
+
+elif '2023'  in options['era']:
+  options['TnPPATHS']           = cms.vstring("HLT_Ele32_WPTight_Gsf_v*")
+  options['TnPHLTTagFilters']   = cms.vstring("hltEle32WPTightGsfTrackIsoFilter")
+  options['TnPHLTProbeFilters'] = cms.vstring()
+  options['HLTFILTERSTOMEASURE']= {"passHltEle32WPTightGsf" :                           cms.vstring("hltEle32WPTightGsfTrackIsoFilter"),
+                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg1L1match" : cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter"),
+                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg2" :        cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"),
+                                   "passHltDoubleEle33CaloIdLMWSeedLegL1match" :        cms.vstring("hltEle33CaloIdLMWPMS2Filter"),
+                                   "passHltDoubleEle33CaloIdLMWUnsLeg" :                cms.vstring("hltDiEle33CaloIdLMWPMS2UnseededFilter"),
+                                  }
+
 # Apply L1 matching (using L1Threshold) when flag contains "L1match" in name
 options['ApplyL1Matching']      = any(['L1match' in flag for flag in options['HLTFILTERSTOMEASURE'].keys()])
 options['L1Threshold']          = varOptions.L1Threshold
@@ -165,14 +197,14 @@ exec(importTestFiles)
 
 options['INPUT_FILE_NAME'] = inputs['mc' if options['isMC'] else 'data']
 
-
 ###################################################################
 ## Standard imports, GT and pile-up
 ###################################################################
 process = cms.Process("tnpEGM")
 process.load("Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff")
 process.load("Configuration.Geometry.GeometryRecoDB_cff")
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+#process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff') #old
+#process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff') #new
 process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.load('Configuration.StandardSequences.Services_cff')

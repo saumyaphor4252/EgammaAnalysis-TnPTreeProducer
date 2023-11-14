@@ -70,6 +70,8 @@ def setGoodParticlesMiniAOD(process, options):
                                           beamSpot         = cms.InputTag("offlineBeamSpot"),
                                           conversions      = cms.InputTag("reducedEgamma:reducedConversions"),
                                           pfCandidates     = cms.InputTag("packedPFCandidates"),
+                                          ebRecHits        = cms.InputTag("reducedEgamma","reducedEBRecHits","RECO"),
+                                          eeRecHits        = cms.InputTag("reducedEgamma","reducedEERecHits","RECO")
                                           )
 
     ####################  Electron collection
@@ -116,6 +118,8 @@ def setGoodParticlesAOD(process, options):
                                           beamSpot         = cms.InputTag("offlineBeamSpot"),
                                           conversions      = cms.InputTag("allConversions"),
                                           pfCandidates     = cms.InputTag("particleFlow"),
+                                          ebRecHits        = cms.InputTag("reducedEgamma","reducedEBRecHits","RECO"),
+                                          eeRecHits        = cms.InputTag("reducedEgamma","reducedEERecHits","RECO")
                                           )
 
     process.hltVarHelper = cms.EDProducer("GsfElectronHLTVariableHelper",
