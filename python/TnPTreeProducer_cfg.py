@@ -20,9 +20,9 @@ def registerOption(optionName, defaultValue, description, optionType=VarParsing.
 registerOption('isMC',        False,    'Use MC instead of data')
 registerOption('isAOD',       False,    'Use AOD samples instead of miniAOD')
 registerOption('is80X',       False,    'Compatibility to run on old 80X files')
-registerOption('doEleID',     False,     'Include tree for electron ID SF')
-registerOption('doPhoID',     False,     'Include tree for photon ID SF')
-registerOption('doTrigger',   False,     'Include tree for trigger SF')
+registerOption('doEleID',     False,    'Include tree for electron ID SF')
+registerOption('doPhoID',     False,    'Include tree for photon ID SF')
+registerOption('doTrigger',   False,    'Include tree for trigger SF')
 registerOption('doRECO',      False,    'Include tree for Reco SF (requires AOD)')
 registerOption('calibEn',     False,    'Use EGM smearer to calibrate photon and electron energy')
 registerOption('includeSUSY', False,    'Add also the variables used by SUSY')
@@ -182,12 +182,14 @@ elif '2022' in options['era']:
   options['TnPPATHS']           = cms.vstring("HLT_Ele30_WPTight_Gsf_v*")
   options['TnPHLTTagFilters']   = cms.vstring("hltEle30WPTightGsfTrackIsoFilter")
   options['TnPHLTProbeFilters'] = cms.vstring()
-  options['HLTFILTERSTOMEASURE']= {"passHltEle30WPTightGsf" :                           cms.vstring("hltEle30WPTightGsfTrackIsoFilter"),
-                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg1L1match" : cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter"),
-                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg2" :        cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"),
-                                   "passHltDoubleEle33CaloIdLMWSeedLegL1match" :        cms.vstring("hltEle33CaloIdLMWPMS2Filter"),
-                                   "passHltDoubleEle33CaloIdLMWUnsLeg" :                cms.vstring("hltDiEle33CaloIdLMWPMS2UnseededFilter"),
-                                  }
+  options['HLTFILTERSTOMEASURE']= {}
+  options['HLTFILTERSTOMEASURE'].update(ele30_allFilters) 
+  options['HLTFILTERSTOMEASURE'].update(ele32_allFilters) 
+  options['HLTFILTERSTOMEASURE'].update(ele115_allFilters)
+  options['HLTFILTERSTOMEASURE'].update(ele135_allFilters)
+  options['HLTFILTERSTOMEASURE'].update(ele23ele12_allFilters)
+  options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg1_allFilters)
+  options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg2_allFilters)
 
 elif '2023' in options['era']:
   options['TnPPATHS']           = cms.vstring("HLT_Ele30_WPTight_Gsf_v*")
