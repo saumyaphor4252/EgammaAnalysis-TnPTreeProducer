@@ -67,8 +67,8 @@ scram b -j8
 ### 1c. Install for Run3 (CMSSW\_13\_1\_X, works for 2022 and 2023 data/MC)
 
 ```bash
-cmsrel CMSSW_13_1_0
-cd CMSSW_13_1_0/src
+cmsrel CMSSW_13_3_1
+cd CMSSW_13_3_1/src
 cmsenv
 git clone -b Run3_13X git@github.com:cms-egamma/EgammaAnalysis-TnPTreeProducer.git EgammaAnalysis/TnPTreeProducer
 scram b -j8
