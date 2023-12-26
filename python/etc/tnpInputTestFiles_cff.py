@@ -13,9 +13,16 @@ filesMiniAOD_2022 = {
 }
 
 filesMiniAOD_2023 = {
-    'mc' :   cms.untracked.vstring(''),
     'data' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/data/Run2023D/EGamma0/MINIAOD/PromptReco-v2/000/370/776/00000/2744e097-88da-4e48-9740-d0bfe1d54fce.root'),
 }
+
+filesMiniAOD_2023preBPIX = {
+    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/mc/Run3Summer23MiniAODv4/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/MINIAODSIM/130X_mcRun3_2023_realistic_v14-v1/2550000/00070982-2c6a-4df6-9af7-530f9155c758.root')
+    }
+
+filesMiniAOD_2023postBPIX = {
+    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/mc/Run3Summer23BPixMiniAODv4/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/MINIAODSIM/130X_mcRun3_2023_realistic_postBPix_v2-v3/80000/0040c573-d7f9-47c0-bf8a-2c40619c8ffb.root')
+    }
 
 filesMiniAOD_2017 = {
     'mc' :   cms.untracked.vstring('file:/eos/cms/store/group/phys_egamma/tnpTuples/testFiles/RunIIFall17MiniAODv2-DYJetsToLL_M-50.root'),

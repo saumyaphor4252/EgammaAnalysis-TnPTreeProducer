@@ -47,7 +47,7 @@ if varOptions.isAOD and varOptions.doTrigger:  log.warning('AOD is not supported
 if not varOptions.isAOD and varOptions.doRECO: log.warning('miniAOD is not supported for doRECO, please consider using AOD')
 
 from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
-if varOptions.era not in ['2016', '2017', '2018', '2022', '2023', 'UL2016preVFP', 'UL2016postVFP', 'UL2017', 'UL2018']: 
+if varOptions.era not in ['2016', '2017', '2018', '2022', '2023', '2023preBPIX', '2023postBPIX', 'UL2016preVFP', 'UL2016postVFP', 'UL2017', 'UL2018']: 
   log.error('%s is not a valid era' % varOptions.era)
 #if ('UL' in varOptions.era)!=(isReleaseAbove(10, 6)):
   #log.error('Inconsistent release for era %s. Use CMSSW_10_6_X for UL and CMSSW_10_2_X for rereco' % varOptions.era)
@@ -184,9 +184,7 @@ elif '2022' in options['era']:
   options['TnPHLTProbeFilters'] = cms.vstring()
   options['HLTFILTERSTOMEASURE']= {}
   options['HLTFILTERSTOMEASURE'].update(ele30_allFilters) 
-  options['HLTFILTERSTOMEASURE'].update(ele32_allFilters) 
   options['HLTFILTERSTOMEASURE'].update(ele115_allFilters)
-  options['HLTFILTERSTOMEASURE'].update(ele135_allFilters)
   options['HLTFILTERSTOMEASURE'].update(ele23ele12_allFilters)
   options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg1_allFilters)
   options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg2_allFilters)
@@ -197,9 +195,7 @@ elif '2023' in options['era']:
   options['TnPHLTProbeFilters'] = cms.vstring()
   options['HLTFILTERSTOMEASURE']= {}
   options['HLTFILTERSTOMEASURE'].update(ele30_allFilters) 
-  options['HLTFILTERSTOMEASURE'].update(ele32_allFilters) 
   options['HLTFILTERSTOMEASURE'].update(ele115_allFilters)
-  options['HLTFILTERSTOMEASURE'].update(ele135_allFilters)
   options['HLTFILTERSTOMEASURE'].update(ele23ele12_allFilters)
   options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg1_allFilters)
   options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg2_allFilters)

@@ -8,7 +8,7 @@ submitVersion = "2023-12-22" # add some date here
 doL1matching  = False
 
 defaultArgs   = ['doEleID=True','doPhoID=True','doTrigger=True']
-mainOutputDir = '/store/group/phys_egamma/ec/tnpTuples/2023/%s' % (submitVersion)
+mainOutputDir = '/store/group/phys_egamma/ec/tnpTuples/Prompt2023/%s' % (submitVersion)
 
 # Logging the current version of TnpTreeProducer here, such that you can find back what the actual code looked like when you were submitting
 os.system('mkdir -p /eos/cms/%s' % mainOutputDir)
@@ -71,9 +71,9 @@ def submit(config, requestName, sample, era, json, extraParam=[]):
   config.JobType.pyCfgParams  = defaultArgs + ['isMC=True' if isMC else 'isMC=False', 'era=%s' % era] + extraParam
 
   print( config )
-  #try:                           crabCommand('submit', config = config)
-  #except HTTPException as hte:   print( "Failed submitting task: %s" % (hte.headers))
-  #except ClientException as cle: print( "Failed submitting task: %s" % (cle))
+  try:                           crabCommand('submit', config = config)
+  except HTTPException as hte:   print( "Failed submitting task: %s" % (hte.headers))
+  except ClientException as cle: print( "Failed submitting task: %s" % (cle))
   print()
   print()
 
@@ -91,10 +91,10 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
       p.start()
       p.join()
   else:
-    #p = Process(target=submit, args=(config, requestName, sample, era, getLumiMask(era), extraParam))
-    #p.start()
-    #p.join()
-    submit(config, requestName, sample, era, getLumiMask(era), extraParam) # print the config files
+    p = Process(target=submit, args=(config, requestName, sample, era, getLumiMask(era), extraParam))
+    p.start()
+    p.join()
+    #submit(config, requestName, sample, era, getLumiMask(era), extraParam) # print the config files
 
 
 #
@@ -102,28 +102,27 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
 # Here the default data/MC for UL and rereco are given (taken based on the release environment)
 # If you would switch to AOD, don't forget to add 'isAOD=True' to the defaultArgs!
 #
-from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
+#from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
+#if isReleaseAbove(13,0):
 
-if isReleaseAbove(13,3):
-  
-  eraData       = '2023'
-  eraMCpreBPIX  = '2023preBPIX'
-  eraMCpostBPIX = '2023postBPIX'
-  
-  submitWrapper('Run2022C_0v1', '/EGamma0/Run2023C-22Sep2023_v1-v1/MINIAOD', eraData)
-  submitWrapper('Run2022C_0v2', '/EGamma0/Run2023C-22Sep2023_v2-v1/MINIAOD', eraData)
-  submitWrapper('Run2022C_0v3', '/EGamma0/Run2023C-22Sep2023_v3-v1/MINIAOD', eraData)
-  submitWrapper('Run2022C_0v4', '/EGamma0/Run2023C-22Sep2023_v4-v1/MINIAOD', eraData)
-  submitWrapper('Run2022C_1v1', '/EGamma1/Run2023C-22Sep2023_v1-v1/MINIAOD', eraData)
-  submitWrapper('Run2022C_1v2', '/EGamma1/Run2023C-22Sep2023_v2-v1/MINIAOD', eraData)
-  submitWrapper('Run2022C_1v3', '/EGamma1/Run2023C-22Sep2023_v3-v1/MINIAOD', eraData)
-  submitWrapper('Run2022C_1v4', '/EGamma1/Run2023C-22Sep2023_v4-v1/MINIAOD', eraData)
-  submitWrapper('Run2022D_0v1', '/EGamma0/Run2023D-22Sep2023_v1-v1/MINIAOD', eraData)
-  submitWrapper('Run2022D_0v2', '/EGamma0/Run2023D-22Sep2023_v2-v1/MINIAOD', eraData)
-  submitWrapper('Run2022D_1v1', '/EGamma1/Run2023D-22Sep2023_v1-v1/MINIAOD', eraData)
-  submitWrapper('Run2022D_1v2', '/EGamma1/Run2023D-22Sep2023_v2-v1/MINIAOD', eraData)
+eraData       = '2023'
+eraMCpreBPIX  = '2023preBPIX'
+eraMCpostBPIX = '2023postBPIX'
 
-  submitWrapper('DY_LO_preBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v1/MINIAODSIM', eraMCpreBPIX)
-  submitWrapper('DY_NLO_preBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v1/MINIAODSIM', eraMCpreBPIX)
-  submitWrapper('DY_LO_postBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
-  submitWrapper('DY_NLO_postBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
+submitWrapper('Run2022C_0v1', '/EGamma0/Run2023C-22Sep2023_v1-v1/MINIAOD', eraData)
+submitWrapper('Run2022C_0v2', '/EGamma0/Run2023C-22Sep2023_v2-v1/MINIAOD', eraData)
+submitWrapper('Run2022C_0v3', '/EGamma0/Run2023C-22Sep2023_v3-v1/MINIAOD', eraData)
+submitWrapper('Run2022C_0v4', '/EGamma0/Run2023C-22Sep2023_v4-v1/MINIAOD', eraData)
+submitWrapper('Run2022C_1v1', '/EGamma1/Run2023C-22Sep2023_v1-v1/MINIAOD', eraData)
+submitWrapper('Run2022C_1v2', '/EGamma1/Run2023C-22Sep2023_v2-v1/MINIAOD', eraData)
+submitWrapper('Run2022C_1v3', '/EGamma1/Run2023C-22Sep2023_v3-v1/MINIAOD', eraData)
+submitWrapper('Run2022C_1v4', '/EGamma1/Run2023C-22Sep2023_v4-v1/MINIAOD', eraData)
+submitWrapper('Run2022D_0v1', '/EGamma0/Run2023D-22Sep2023_v1-v1/MINIAOD', eraData)
+submitWrapper('Run2022D_0v2', '/EGamma0/Run2023D-22Sep2023_v2-v1/MINIAOD', eraData)
+submitWrapper('Run2022D_1v1', '/EGamma1/Run2023D-22Sep2023_v1-v1/MINIAOD', eraData)
+submitWrapper('Run2022D_1v2', '/EGamma1/Run2023D-22Sep2023_v2-v1/MINIAOD', eraData)
+
+submitWrapper('DY_LO_preBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v1/MINIAODSIM', eraMCpreBPIX)
+submitWrapper('DY_NLO_preBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v1/MINIAODSIM', eraMCpreBPIX)
+submitWrapper('DY_LO_postBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
+submitWrapper('DY_NLO_postBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
