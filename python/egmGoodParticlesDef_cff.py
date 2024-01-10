@@ -118,8 +118,8 @@ def setGoodParticlesAOD(process, options):
                                           beamSpot         = cms.InputTag("offlineBeamSpot"),
                                           conversions      = cms.InputTag("allConversions"),
                                           pfCandidates     = cms.InputTag("particleFlow"),
-                                          ebRecHits        = cms.InputTag("reducedEgamma","reducedEBRecHits","RECO"),
-                                          eeRecHits        = cms.InputTag("reducedEgamma","reducedEERecHits","RECO")
+                                          ebRecHits        = cms.InputTag("reducedEcalRecHitsEB","","RECO"),
+                                          eeRecHits        = cms.InputTag("reducedEcalRecHitsEE","","RECO")
                                           )
 
     process.hltVarHelper = cms.EDProducer("GsfElectronHLTVariableHelper",
