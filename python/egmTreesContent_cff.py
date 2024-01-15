@@ -158,6 +158,7 @@ PhoProbeVariablesToStore = cms.PSet(
     ph_sc_et        = cms.string("superCluster.energy*sin(superCluster.position.theta)"),
     ph_sc_eta       = cms.string("-log(tan(superCluster.position.theta/2))"),
     ph_sc_abseta    = cms.string("abs(-log(tan(superCluster.position.theta/2)))"),
+    ph_sc_phi       = cms.string("superCluster.phi"),
     ph_sc_etaWidth  = cms.string("superCluster.etaWidth"),
     ph_sc_phiWidth  = cms.string("superCluster.phiWidth"),
 
