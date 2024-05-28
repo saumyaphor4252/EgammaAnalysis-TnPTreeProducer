@@ -70,7 +70,7 @@ def submit(config, requestName, sample, era, json, extraParam=[]):
   config.Data.splitting       = 'FileBased' if isMC else 'LumiBased'
   config.Data.lumiMask        = None if isMC else json
   config.Data.unitsPerJob     = 5 if isMC else 25
-  config.JobType.pyCfgParams  = defaultArgs if not isAOD else AODArgs + ['isMC=True' if isMC else 'isMC=False', 'era=%s' % era] + extraParam
+  config.JobType.pyCfgParams  = (defaultArgs if not isAOD else AODArgs) + ['isMC=True' if isMC else 'isMC=False', 'era=%s' % era] + extraParam
 
   print( config )
   try:                           crabCommand('submit', config = config)
