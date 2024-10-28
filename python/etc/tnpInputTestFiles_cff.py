@@ -94,3 +94,16 @@ filesAOD_2023preBPIX = {
 filesAOD_2023postBPIX = {
     'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/mc/Run3Summer23BPixDRPremix/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/AODSIM/130X_mcRun3_2023_realistic_postBPix_v2-v3/80000/00ebe845-8a8e-4ecd-a979-a74d292b87d6.root')
     }
+
+filesMiniAOD_2024 = {
+    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch/store/relval/CMSSW_14_0_9/RelValZEE_14/GEN-SIM-DIGI-RAW/PU_140X_mcRun3_2024_realistic_v14_RV245_2024-v1/2580001/ff21d685-7e7b-4966-b4b7-7d577b1dc558.root')
+    }
+
+filesMiniAOD_2024_EOR3_TkDPGv2 = {
+    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch/store/relval/CMSSW_14_0_9/RelValZEE_14/GEN-SIM-DIGI-RAW/PU_140X_mcRun3_2024_realistic_EOR3_TkDPGv2_RV245_2024-v4/2580001/ff5f56bb-51db-458b-a281-0d82854db44a.root')
+    }
+
+filesMiniAOD_2024_EOR3_TkDPGv6 = {
+    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch/store/relval/CMSSW_14_0_9/RelValZEE_14/GEN-SIM-DIGI-RAW/PU_140X_mcRun3_2024_realistic_EOR3_TkDPGv6_RV245_2024-v1/2580001/ffed80a6-78fd-4121-80d4-ea0a83285295.root')
+    }
+

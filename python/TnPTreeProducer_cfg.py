@@ -47,7 +47,7 @@ if varOptions.isAOD and varOptions.doTrigger:  log.warning('AOD is not supported
 if not varOptions.isAOD and varOptions.doRECO: log.warning('miniAOD is not supported for doRECO, please consider using AOD')
 
 from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
-if varOptions.era not in ['2016', '2017', '2018', '2022', '2023', '2023preBPIX', '2023postBPIX', 'UL2016preVFP', 'UL2016postVFP', 'UL2017', 'UL2018']: 
+if varOptions.era not in ['2016', '2017', '2018', '2022', '2023', '2023preBPIX', '2023postBPIX', '2024', '2024_EOR3_TkDPGv2', '2024_EOR3_TkDPGv6', 'UL2016preVFP', 'UL2016postVFP', 'UL2017', 'UL2018']: 
   log.error('%s is not a valid era' % varOptions.era)
 #if ('UL' in varOptions.era)!=(isReleaseAbove(10, 6)):
   #log.error('Inconsistent release for era %s. Use CMSSW_10_6_X for UL and CMSSW_10_2_X for rereco' % varOptions.era)
@@ -80,6 +80,7 @@ options['PHOTON_CUTS']          = "(abs(-log(tan(superCluster.position.theta/2))
 options['ELECTRON_TAG_CUTS']    = "(abs(-log(tan(superCluster.position.theta/2)))<=2.5) && !(1.4442<=abs(-log(tan(superClusterPosition.theta/2)))<=1.566) && pt >= 30.0"
 
 options['MAXEVENTS']            = cms.untracked.int32(varOptions.maxEvents)
+#options['MAXEVENTS']            = cms.untracked.int32(1000)
 options['DoTrigger']            = varOptions.doTrigger
 options['DoRECO']               = varOptions.doRECO
 options['DoEleID']              = varOptions.doEleID
@@ -108,7 +109,10 @@ if varOptions.GT == "auto":
     if options['era'] == 'UL2018': options['GLOBALTAG'] = '106X_dataRun2_v28'
     if options['era'] == '2022': options['GLOBALTAG'] = 'auto:phase1_2022_realistic' 
     if options['era'] == '2023preBPIX': options['GLOBALTAG'] = '130X_mcRun3_2023_realistic_v14' 
-    if options['era'] == '2023postBPIX': options['GLOBALTAG'] = '130X_mcRun3_2023_realistic_postBPix_v2' 
+    if options['era'] == '2023postBPIX': options['GLOBALTAG'] = '130X_mcRun3_2023_realistic_postBPix_v2'
+    if options['era'] == '2024': options['GLOBALTAG'] = '140X_mcRun3_2024_realistic_v14'
+    if options['era'] == '2024_EOR3_TkDPGv2': options['GLOBALTAG'] = '140X_mcRun3_2024_realistic_EOR3_TkDPGv2'
+    if options['era'] == '2024_EOR3_TkDPGv6': options['GLOBALTAG'] = '140X_mcRun3_2024_realistic_EOR3_TkDPGv6'
   else:
     if options['era'] == '2016':   options['GLOBALTAG'] = '94X_dataRun2_v10'
     if options['era'] == '2017':   options['GLOBALTAG'] = '94X_dataRun2_v11'
@@ -119,6 +123,7 @@ if varOptions.GT == "auto":
     if options['era'] == 'UL2018': options['GLOBALTAG'] = '106X_upgrade2018_realistic_v11_L1v1'
     if options['era'] == '2022': options['GLOBALTAG'] = '124X_dataRun3_Prompt_v10'
     if options['era'] == '2023': options['GLOBALTAG'] = '130X_dataRun3_PromptAnalysis_v1'
+    if options['era'] == '2024': options['GLOBALTAG'] = '140X_dataRun3_Prompt_v2'
 else:
   options['GLOBALTAG'] = varOptions.GT
 
@@ -132,8 +137,14 @@ log.info('Globaltag: %s' % options['GLOBALTAG'])
 #HLT_Ele30_WPTight_Gsf
 ele30_allFilters = {'passHLTEG30L1SingleEGOrEtFilter': cms.vstring('hltEG30L1SingleEGOrEtFilter'), 'passHLTEle30WPTightClusterShapeFilter': cms.vstring('hltEle30WPTightClusterShapeFilter'), 'passHLTEle30WPTightHEFilter': cms.vstring('hltEle30WPTightHEFilter'), 'passHLTEle30WPTightEcalIsoFilter': cms.vstring('hltEle30WPTightEcalIsoFilter'), 'passHLTEle30WPTightHcalIsoFilter': cms.vstring('hltEle30WPTightHcalIsoFilter'), 'passHLTEle30WPTightPixelMatchFilter': cms.vstring('hltEle30WPTightPixelMatchFilter'), 'passHLTEle30WPTightPMS2Filter': cms.vstring('hltEle30WPTightPMS2Filter'), 'passHLTEle30WPTightGsfOneOEMinusOneOPFilter': cms.vstring('hltEle30WPTightGsfOneOEMinusOneOPFilter'), 'passHLTEle30WPTightGsfMissingHitsFilter': cms.vstring('hltEle30WPTightGsfMissingHitsFilter'), 'passHLTEle30WPTightGsfDetaFilter': cms.vstring('hltEle30WPTightGsfDetaFilter'), 'passHLTEle30WPTightGsfDphiFilter': cms.vstring('hltEle30WPTightGsfDphiFilter'), 'passHLTEle30WPTightGsfTrackIsoFilter': cms.vstring('hltEle30WPTightGsfTrackIsoFilter')}
 
+#HLT_Ele32_WPTight_Gsf
+ele32_allFilters = {'passHLTEG32L1SingleEGOrEtFilter': cms.vstring('hltEG32L1SingleEGOrEtFilter'), 'passHLTEle32WPTightClusterShapeFilter': cms.vstring('hltEle32WPTightClusterShapeFilter'), 'passHLTEle32WPTightHEFilter': cms.vstring('hltEle32WPTightHEFilter'), 'passHLTEle32WPTightEcalIsoFilter': cms.vstring('hltEle32WPTightEcalIsoFilter'), 'passHLTEle32WPTightHcalIsoFilter': cms.vstring('hltEle32WPTightHcalIsoFilter'), 'passHLTEle32WPTightPixelMatchFilter': cms.vstring('hltEle32WPTightPixelMatchFilter'), 'passHLTEle32WPTightPMS2Filter': cms.vstring('hltEle32WPTightPMS2Filter'), 'passHLTEle32WPTightGsfOneOEMinusOneOPFilter': cms.vstring('hltEle32WPTightGsfOneOEMinusOneOPFilter'), 'passHLTEle32WPTightGsfMissingHitsFilter': cms.vstring('hltEle32WPTightGsfMissingHitsFilter'), 'passHLTEle32WPTightGsfDetaFilter': cms.vstring('hltEle32WPTightGsfDetaFilter'), 'passHLTEle32WPTightGsfDphiFilter': cms.vstring('hltEle32WPTightGsfDphiFilter'), 'passHLTEle32WPTightGsfTrackIsoFilter': cms.vstring('hltEle32WPTightGsfTrackIsoFilter')}
+
 #HLT_Ele115_CaloIdVT_GsfTrkIdT
 ele115_allFilters = {'passHLTEGL1SingleEGNonIsoOrWithJetAndTauFilter': cms.vstring('hltEGL1SingleEGNonIsoOrWithJetAndTauFilter'), 'passHLTEG115EtFilter': cms.vstring('hltEG115EtFilter'), 'passHLTEG115CaloIdVTClusterShapeFilter': cms.vstring('hltEG115CaloIdVTClusterShapeFilter'), 'passHLTEG115CaloIdVTHEFilter': cms.vstring('hltEG115CaloIdVTHEFilter'), 'passHLTEle115CaloIdVTPixelMatchFilter': cms.vstring('hltEle115CaloIdVTPixelMatchFilter'), 'passHLTEle115CaloIdVTGsfTrkIdTGsfDetaFilter': cms.vstring('hltEle115CaloIdVTGsfTrkIdTGsfDetaFilter'), 'passHLTEle115CaloIdVTGsfTrkIdTGsfDphiFilter': cms.vstring('hltEle115CaloIdVTGsfTrkIdTGsfDphiFilter')}
+
+#HLT_Ele135_CaloIdVT_GsfTrkIdT
+ele135_allFilters = {'passHLTEG135EtFilter': cms.vstring('hltEG135EtFilter'), 'passHLTEG135CaloIdVTClusterShapeFilter': cms.vstring('hltEG135CaloIdVTClusterShapeFilter'), 'passHLTEG135CaloIdVTHEFilter': cms.vstring('hltEG135CaloIdVTHEFilter'), 'passHLTEle135CaloIdVTPixelMatchFilter': cms.vstring('hltEle135CaloIdVTPixelMatchFilter'), 'passHLTEle135CaloIdVTGsfTrkIdTGsfDetaFilter': cms.vstring('hltEle135CaloIdVTGsfTrkIdTGsfDetaFilter'), 'passHLTEle135CaloIdVTGsfTrkIdTGsfDphiFilter': cms.vstring('hltEle135CaloIdVTGsfTrkIdTGsfDphiFilter')}
 
 #HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL
 ele23ele12_allFilters = {'passHLTEGL1SingleAndDoubleEGOrPairFilter': cms.vstring('hltEGL1SingleAndDoubleEGOrPairFilter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLEtLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLEtLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLEtLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLEtLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLClusterShapeLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLClusterShapeLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLClusterShapeLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLClusterShapeLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLHELeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLHELeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLHELeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLHELeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLEcalIsoLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLEcalIsoLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLEcalIsoLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLEcalIsoLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLHcalIsoLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLHcalIsoLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLHcalIsoLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLHcalIsoLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLPixelMatchLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLPixelMatchLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLPixelMatchLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLPixelMatchLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLOneOEMinusOneOPLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLOneOEMinusOneOPLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLOneOEMinusOneOPLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLOneOEMinusOneOPLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLDetaLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLDetaLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLDetaLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLDetaLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLDphiLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLDphiLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLDphiLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLDphiLeg2Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter'), 'passHLTEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter': cms.vstring('hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter')}
@@ -178,24 +189,24 @@ elif '2018'  in options['era']:
                                    "passHltDoubleEle33CaloIdLMWUnsLeg" :                cms.vstring("hltDiEle33CaloIdLMWPMS2UnseededFilter"),
                                   }
 
-elif '2022' in options['era']:
-  options['TnPPATHS']           = cms.vstring("HLT_Ele30_WPTight_Gsf_v*")
+else:#Run-3
+  options['TnPPATHS']           = cms.vstring("HLT_Ele32_WPTight_Gsf_v*")
   options['TnPHLTTagFilters']   = cms.vstring("hltEle30WPTightGsfTrackIsoFilter")
   options['TnPHLTProbeFilters'] = cms.vstring()
-  options['HLTFILTERSTOMEASURE']= {}
-  options['HLTFILTERSTOMEASURE'].update(ele30_allFilters) 
-  options['HLTFILTERSTOMEASURE'].update(ele115_allFilters)
-  options['HLTFILTERSTOMEASURE'].update(ele23ele12_allFilters)
-  options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg1_allFilters)
-  options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg2_allFilters)
+  options['HLTFILTERSTOMEASURE']= {"passHltEle32WPTightGsf" :                           cms.vstring("hltEle32WPTightGsfTrackIsoFilter"),
+                                   "passHltEle115CaloIdVTGsfTrkIdTGsf" :                cms.vstring("hltEle115CaloIdVTGsfTrkIdTGsfDphiFilter"),
+                                   "passHltEle135CaloIdVTGsfTrkIdTGsf" :                cms.vstring("hltEle135CaloIdVTGsfTrkIdTGsfDphiFilter"),
+                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg1L1match" : cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg1Filter"),
+                                   "passHltEle23Ele12CaloIdLTrackIdLIsoVLLeg2" :        cms.vstring("hltEle23Ele12CaloIdLTrackIdLIsoVLTrackIsoLeg2Filter"),
+                                   "passHltDoubleEle33CaloIdLMWSeedLegL1match" :        cms.vstring("hltEle33CaloIdLMWPMS2Filter"),
+                                   "passHltDoubleEle33CaloIdLMWUnsLeg" :                cms.vstring("hltDiEle33CaloIdLMWPMS2UnseededFilter"),
+                                  }
 
-elif '2023' in options['era']:
-  options['TnPPATHS']           = cms.vstring("HLT_Ele30_WPTight_Gsf_v*")
-  options['TnPHLTTagFilters']   = cms.vstring("hltEle30WPTightGsfTrackIsoFilter")
-  options['TnPHLTProbeFilters'] = cms.vstring()
-  options['HLTFILTERSTOMEASURE']= {}
-  options['HLTFILTERSTOMEASURE'].update(ele30_allFilters) 
+  options['HLTFILTERSTOMEASURE'].update({"passHltEle30WPTightGsf" : cms.vstring("hltEle30WPTightGsfTrackIsoFilter")})
+  options['HLTFILTERSTOMEASURE'].update(ele30_allFilters)
+  options['HLTFILTERSTOMEASURE'].update(ele32_allFilters)
   options['HLTFILTERSTOMEASURE'].update(ele115_allFilters)
+  options['HLTFILTERSTOMEASURE'].update(ele135_allFilters)
   options['HLTFILTERSTOMEASURE'].update(ele23ele12_allFilters)
   options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg1_allFilters)
   options['HLTFILTERSTOMEASURE'].update(doubleEle33_leg2_allFilters)
