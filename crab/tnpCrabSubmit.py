@@ -4,13 +4,12 @@ import os
 #
 # Example script to submit TnPTreeProducer to crab
 #
-submitVersion = "2024-01-08" # add some date here
+submitVersion = "2024-10-31" # add some date here
 doL1matching  = False
 isAOD = False
 
-defaultArgs   = ['doEleID=True','doPhoID=True','doTrigger=True']
-AODArgs     = ['isAOD=True','doRECO=True']
-mainOutputDir = '/store/group/phys_egamma/ec/tnpTuples/Prompt2023/%s' % (submitVersion)
+defaultArgs   = ['doEleID=False','doPhoID=False','doTrigger=True']
+mainOutputDir = '/store/group/phys_egamma/ssaumya/Tracker2025Scenarios/%s' % (submitVersion)
 
 # Logging the current version of TnpTreeProducer here, such that you can find back what the actual code looked like when you were submitting
 os.system('mkdir -p /eos/cms/%s' % mainOutputDir)
@@ -53,7 +52,7 @@ def getLumiMask(era):
   elif era=='UL2018': return 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'
   elif era=='2022': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/Cert_Collisions2022_355100_362760_Golden.json'
   elif era=='2023': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/Cert_Collisions2023_366442_370790_Golden.json'
-
+  #elif era=='2024': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions24/Cert_Collisions2024_378981_379470_Golden.json'
 
 #
 # Submit command
@@ -62,22 +61,37 @@ from CRABAPI.RawCommand import crabCommand
 from CRABClient.ClientExceptions import ClientException
 from http.client import HTTPException
 
+crab_sub = open("crab_sub.sh", "w")
+crab_status = open("crab_status.sh", "w")
+crab_resub = open("crab_resub.sh", "w")
+crab_merge = open("crab_merge.sh", "w")
+path = "/eos/cms/store/group/phys_egamma/ssaumya/Tracker2025Scenarios/tnpTuples/"
+
 def submit(config, requestName, sample, era, json, extraParam=[]):
   isMC                        = 'SIM' in sample
-  config.General.requestName  = '%s_%s' % (era, requestName)
+  dMC = "data"
+  if isMC: dMC = "mc"
+  config.General.requestName  = '%s_%s' % (dMC, requestName)
   config.Data.inputDataset    = sample
-  config.Data.outLFNDirBase   = '%s/%s/%s/' % (mainOutputDir, era, 'mc' if isMC else 'data')
+  config.Data.outLFNDirBase   = '%s/%s/%s/' % (mainOutputDir, era, dMC)
   config.Data.splitting       = 'FileBased' if isMC else 'LumiBased'
   config.Data.lumiMask        = None if isMC else json
-  config.Data.unitsPerJob     = 5 if isMC else 25
-  config.JobType.pyCfgParams  = (defaultArgs if not isAOD else AODArgs) + ['isMC=True' if isMC else 'isMC=False', 'era=%s' % era] + extraParam
-
-  print( config )
-  try:                           crabCommand('submit', config = config)
-  except HTTPException as hte:   print( "Failed submitting task: %s" % (hte.headers))
-  except ClientException as cle: print( "Failed submitting task: %s" % (cle))
-  print()
-  print()
+  config.Data.unitsPerJob     = 5 if isMC else 20
+  config.JobType.pyCfgParams  = defaultArgs + ['isMC=True' if isMC else 'isMC=False', 'era=%s' % era] + extraParam
+  outF = open('crab_submit_%s.py'%requestName, 'w')
+  #outF.write(config)
+  print( config, file=outF)
+  outF.close()
+  #crab_sub.write("crab submit crab_submit_%s.py \n"%requestName)
+  #crab_status.write("crab status -d crab_%s/crab_%s_%s \n"%(submitVersion, dMC, requestName))
+  #crab_resub.write("crab resubmit -d crab_%s/crab_%s_%s \n"%(submitVersion, dMC, requestName))
+  #haddIn = "%s/%s/%s/%s/%s/crab_%s_%s/*/*/*.root"%(path, submitVersion, era, dMC, sample.split("/")[1], dMC, requestName)
+  #haddOut = "%s/%s/%s_%s.root"%(path, submitVersion, dMC, requestName)
+  #print(haddOut)
+  #crab_merge.write('hadd -f %s %s & \n\n'%(haddOut, haddIn))
+  #try:                           crabCommand('submit', config = config)
+  #except HTTPException as hte:   print( "Failed submitting task: %s" % (hte.headers))
+  #except ClientException as cle: print( "Failed submitting task: %s" % (cle))
 
 #
 # Wrapping the submit command
@@ -98,7 +112,6 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
     p.join()
     #submit(config, requestName, sample, era, getLumiMask(era), extraParam) # print the config files
 
-
 #
 # List of samples to submit, with eras
 # Here the default data/MC for UL and rereco are given (taken based on the release environment)
@@ -107,45 +120,10 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
 #from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
 #if isReleaseAbove(13,0):
 
-eraData       = '2023'
-eraMCpreBPIX  = '2023preBPIX'
-eraMCpostBPIX = '2023postBPIX'
+eraMC_2024 = '2024'
+eraMC_2024_TkDPGv2 = '2024_EOR3_TkDPGv2'
+eraMC_2024_TkDPGv6 = '2024_EOR3_TkDPGv6'
 
-submitWrapper('Run2023C_0v1', '/EGamma0/Run2023C-22Sep2023_v1-v1/MINIAOD', eraData)
-submitWrapper('Run2023C_0v2', '/EGamma0/Run2023C-22Sep2023_v2-v1/MINIAOD', eraData)
-submitWrapper('Run2023C_0v3', '/EGamma0/Run2023C-22Sep2023_v3-v1/MINIAOD', eraData)
-submitWrapper('Run2023C_0v4', '/EGamma0/Run2023C-22Sep2023_v4-v1/MINIAOD', eraData)
-submitWrapper('Run2023C_1v1', '/EGamma1/Run2023C-22Sep2023_v1-v1/MINIAOD', eraData)
-submitWrapper('Run2023C_1v2', '/EGamma1/Run2023C-22Sep2023_v2-v1/MINIAOD', eraData)
-submitWrapper('Run2023C_1v3', '/EGamma1/Run2023C-22Sep2023_v3-v1/MINIAOD', eraData)
-submitWrapper('Run2023C_1v4', '/EGamma1/Run2023C-22Sep2023_v4-v1/MINIAOD', eraData)
-submitWrapper('Run2023D_0v1', '/EGamma0/Run2023D-22Sep2023_v1-v1/MINIAOD', eraData)
-submitWrapper('Run2023D_0v2', '/EGamma0/Run2023D-22Sep2023_v2-v1/MINIAOD', eraData)
-submitWrapper('Run2023D_1v1', '/EGamma1/Run2023D-22Sep2023_v1-v1/MINIAOD', eraData)
-submitWrapper('Run2023D_1v2', '/EGamma1/Run2023D-22Sep2023_v2-v1/MINIAOD', eraData)
-
-submitWrapper('DY_LO_preBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v1/MINIAODSIM', eraMCpreBPIX)
-submitWrapper('DY_NLO_preBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23MiniAODv4-130X_mcRun3_2023_realistic_v14-v1/MINIAODSIM', eraMCpreBPIX)
-submitWrapper('DY_LO_postBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
-submitWrapper('DY_NLO_postBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v2-v3/MINIAODSIM', eraMCpostBPIX)
-
-if isAOD:  #AOD files
-  
-  submitWrapper('Run2023C_0v1_AOD', '/EGamma0/Run2023C-PromptReco-v1/AOD', eraData)
-  submitWrapper('Run2023C_0v2_AOD', '/EGamma0/Run2023C-PromptReco-v2/AOD', eraData)
-  submitWrapper('Run2023C_0v3_AOD', '/EGamma0/Run2023C-PromptReco-v3/AOD', eraData)
-  submitWrapper('Run2023C_0v4_AOD', '/EGamma0/Run2023C-PromptReco-v4/AOD', eraData)
-  submitWrapper('Run2023C_1v1_AOD', '/EGamma1/Run2023C-PromptReco-v1/AOD', eraData)
-  submitWrapper('Run2023C_1v2_AOD', '/EGamma1/Run2023C-PromptReco-v2/AOD', eraData)
-  submitWrapper('Run2023C_1v3_AOD', '/EGamma1/Run2023C-PromptReco-v3/AOD', eraData)
-  submitWrapper('Run2023C_1v4_AOD', '/EGamma1/Run2023C-PromptReco-v4/AOD', eraData)
-  
-  submitWrapper('Run2023D_0v1_AOD', '/EGamma0/Run2023D-PromptReco-v1/AOD', eraData)
-  submitWrapper('Run2023D_0v2_AOD', '/EGamma0/Run2023D-PromptReco-v2/AOD', eraData)
-  submitWrapper('Run2023D_1v1_AOD', '/EGamma1/Run2023D-PromptReco-v1/AOD', eraData)
-  submitWrapper('Run2023D_1v2_AOD', '/EGamma1/Run2023D-PromptReco-v2/AOD', eraData)
-  
-  submitWrapper('DY_LO_AODSIM_preBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23DRPremix-130X_mcRun3_2023_realistic_v14-v1/AODSIM', eraMCpreBPIX)
-  submitWrapper('DY_NLO_AODSIM_preBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23DRPremix-130X_mcRun3_2023_realistic_v14-v1/AODSIM', eraMCpreBPIX)
-  submitWrapper('DY_LO_AODSIM_postBPIX', '/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer23BPixDRPremix-130X_mcRun3_2023_realistic_postBPix_v2-v3/AODSIM', eraMCpostBPIX)
-  submitWrapper('DY_NLO_AODSIM_postBPIX', '/DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer23BPixDRPremix-130X_mcRun3_2023_realistic_postBPix_v2-v3/AODSIM', eraMCpostBPIX)
+submitWrapper('ZEE_Reference', '/RelValZEE_14/CMSSW_14_0_9-PU_140X_mcRun3_2024_realistic_v14_RV245_2024-v1/MINIAODSIM', eraMC_2024)
+submitWrapper('ZEE_EOR3_TkDPGv2', '/RelValZEE_14/CMSSW_14_0_9-PU_140X_mcRun3_2024_realistic_EOR3_TkDPGv2_RV245_2024-v4/MINIAODSIM', eraMC_2024_TkDPGv2)
+submitWrapper('ZEE_EOR3_TkDPGv6', '/RelValZEE_14/CMSSW_14_0_9-PU_140X_mcRun3_2024_realistic_EOR3_TkDPGv6_RV245_2024-v1/MINIAODSIM', eraMC_2024_TkDPGv6)
