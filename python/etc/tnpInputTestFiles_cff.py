@@ -96,7 +96,9 @@ filesAOD_2023postBPIX = {
     }
 
 filesMiniAOD_2024 = {
-    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch/store/relval/CMSSW_14_0_9/RelValZEE_14/GEN-SIM-DIGI-RAW/PU_140X_mcRun3_2024_realistic_v14_RV245_2024-v1/2580001/ff21d685-7e7b-4966-b4b7-7d577b1dc558.root')
+    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch/store/relval/CMSSW_14_0_9/RelValZEE_14/GEN-SIM-DIGI-RAW/PU_140X_mcRun3_2024_realistic_v14_RV245_2024-v1/2580001/ff21d685-7e7b-4966-b4b7-7d577b1dc558.root'),
+    #'data' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/data/Run2024G/EGamma0/MINIAOD/PromptReco-v1/000/383/812/00000/3d7350c9-6a04-4b00-9a11-29e8ac6c488d.root')
+    'data' : cms.untracked.vstring('file:/afs/cern.ch/work/s/ssaumya/private/Egamma/EGM_Bpix/CMSSW_14_0_15/src/stepMINI.root')
     }
 
 filesMiniAOD_2024_EOR3_TkDPGv2 = {
