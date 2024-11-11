@@ -112,8 +112,6 @@ if varOptions.GT == "auto":
     if options['era'] == '2023preBPIX': options['GLOBALTAG'] = '130X_mcRun3_2023_realistic_v14' 
     if options['era'] == '2023postBPIX': options['GLOBALTAG'] = '130X_mcRun3_2023_realistic_postBPix_v2'
     if options['era'] == '2024': options['GLOBALTAG'] = '140X_mcRun3_2024_realistic_v14'
-    if options['era'] == '2024_EOR3_TkDPGv2': options['GLOBALTAG'] = '140X_mcRun3_2024_realistic_EOR3_TkDPGv2'
-    if options['era'] == '2024_EOR3_TkDPGv6': options['GLOBALTAG'] = '140X_mcRun3_2024_realistic_EOR3_TkDPGv6'
   else:
     if options['era'] == '2016':   options['GLOBALTAG'] = '94X_dataRun2_v10'
     if options['era'] == '2017':   options['GLOBALTAG'] = '94X_dataRun2_v11'
@@ -124,7 +122,7 @@ if varOptions.GT == "auto":
     if options['era'] == 'UL2018': options['GLOBALTAG'] = '106X_upgrade2018_realistic_v11_L1v1'
     if options['era'] == '2022': options['GLOBALTAG'] = '124X_dataRun3_Prompt_v10'
     if options['era'] == '2023': options['GLOBALTAG'] = '130X_dataRun3_PromptAnalysis_v1'
-    if options['era'] == '2024': options['GLOBALTAG'] = '140X_dataRun3_Prompt_v3'
+    if options['era'] == '2024': options['GLOBALTAG'] = '140X_dataRun3_Prompt_v3' # GT being used for here
 else:
   options['GLOBALTAG'] = varOptions.GT
 

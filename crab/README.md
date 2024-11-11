@@ -15,7 +15,7 @@ cd crab
 source /cvmfs/cms.cern.ch/common/crab-setup.sh
 voms-proxy-init -voms cms 
 # Update the tnpCrabSubmit.py as needed
-python3 tnpCrabSubmit.py
+python3 tnpCrabSubmit_PrivateMINIAOD.py
 # This will create the crab python configurations:
 # e.g. crab_submit_ZEE_Reference.py
 crab submit crab_submit_ZEE_Reference.py
