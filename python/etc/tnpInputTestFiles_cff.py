@@ -107,3 +107,6 @@ filesMiniAOD_2024_EOR3_TkDPGv6 = {
     'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch/store/relval/CMSSW_14_0_9/RelValZEE_14/GEN-SIM-DIGI-RAW/PU_140X_mcRun3_2024_realistic_EOR3_TkDPGv6_RV245_2024-v1/2580001/ffed80a6-78fd-4121-80d4-ea0a83285295.root')
     }
 
+filesMiniAOD_2025 = {
+    'mc' : cms.untracked.vstring('/store/relval/CMSSW_14_2_0/RelValZEE_14/MINIAODSIM/PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v1/2590000/196d0b18-5563-4c7c-9c42-8ca58dde9174.root')
+    }
