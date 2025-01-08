@@ -1,115 +1,48 @@
-# EgammaAnalysis-TnPTreeProducer
-
-Package of the EGamma group to produce Tag-and-Probe trees
-
-## Overview of branches
-
-| Branch                                     | release            | tnpEleIDs          | tnpPhoIDs          | tnpEleTrig         | tnpEleReco         | purpose                                |
-| ------------------------------------------ | ------------------ |:------------------:|:------------------:|:------------------:|:------------------:|:--------------------------------------:|
-|                                            |                    | *miniAOD*          | *miniAOD*          | *miniAOD*          | *AOD*              |                                        |
-| [RunIIfinal](../../tree/RunIIfinal)        | CMSSW\_10\_2       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | Run II analysis                        |
-| [RunIIfinal](../../tree/RunIIfinal)        | CMSSW\_10\_6       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | Run II analysis using ultra-legacy     |
-| [CMSSW\_11\_X\_Y](../../tree/CMSSW_11_X_Y) | CMSSW\_11          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :white_check_mark: | Development for Run III (experimental) |
-| [Run3_13X](../../tree/Run3_13X)   | CMSSW\_13                   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :white_check_mark: | Run3 2022/2023 |
-
-Note: because of a dataformat CMSSW\_10\_6 can only be used for ultra-legacy samples, and CMSSW\_10\_2 should be used for the rereco samples.
-
-## Available tuples
-
-### ReReco 2016, 2017 and 2018
-If you do not need changes to the default code, you can simply use existing flat tag and probe trees, avalaible for both 2016, 2017 and 2018 (RunIIfinal branch):
-
-```bash
-ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-06-09/*/merged/
+### Datasets used
 ```
-
-These inlcude the tnpEleTrig, tnpEleIDs and tnpPhoIDs trees produced with the RunIIfinal branch.
-*Main change with respect to the 2020-02-28 production is the inclusion of some additional branches, e.g. the leptonMva's*
-
-### ReReco 2016, 2017 and 2018 - L1 matched
-In case you need L1 matching for the measurement of doubleEle HLT triggers, you can use the tnpEleTrig trees found in:
-
-```bash
-ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-03-03/*/merged/*L1matched.root
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v1/MINIAODSIM 116000
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v2/MINIAODSIM 120000
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v3/MINIAODSIM 120000
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v4/MINIAODSIM 120000
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_6-v1/MINIAODSIM 134200
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_7-v1/MINIAODSIM 134300
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_8-v1/MINIAODSIM 131800
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_9-v1/MINIAODSIM 134600
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_10-v1/MINIAODSIM 132000
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_11-v1/MINIAODSIM 134600
+/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_12-v1/MINIAODSIM 134300
 ```
-
-### UL2017 and UL2018
-For ultra-legacy  we have tnpEleTrig, tnpEleIDs and tnpPhoIDs trees available at:
+#### Set up rucio rules for the datasets if needed:
 ```
-ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2018/merged
-ls /eos/cms/store/group/phys_egamma/tnpTuples/tomc/2020-05-20/UL2017/merged
-ls /eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016postVFP/merged
-ls /eos/cms/store/group/phys_egamma/tnpTuples/rasharma/2021-02-10/UL2016preVFP/merged
+voms-proxy-init --voms cms
+source /cvmfs/cms.cern.ch/rucio/setup-py3.sh
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v2/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v3/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_2-v4/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_6-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_7-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_8-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_9-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_10-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_11-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
+rucio add-rule cms:/RelValZEE_14/CMSSW_14_2_0-PU_142X_mcRun3_2025_realistic_v4_Winter25_PU_RV255_12-v1/MINIAODSIM 1 T2_CH_CERN  --lifetime 864000 --comment "Needed for urgent feedback on Winter25 samples"
 ```
-
-
-## To produce new tuples
-### 1a. Install for rereco (CMSSW\_10\_2\_X with X=10 or higher, works for 2016, 2017 and 2018 data/MC)
-
-```bash
-cmsrel CMSSW_10_2_22
-cd CMSSW_10_2_22/src
+### Set-up for ntuples
+```
+cmsrel CMSSW_14_2_0
+cd CMSSW_14_2_0/src
 cmsenv
-git clone -b RunIIfinal git@github.com:cms-egamma/EgammaAnalysis-TnPTreeProducer.git EgammaAnalysis/TnPTreeProducer
-scram b -j8
+git clone -b 140X_Tracker2025Scenarios git@github.com: EgammaAnalysis/TnPTreeProducer
+scram b -j 10
+cd EgammaAnalysis-TnPTreeProducer/
+### Do a local test of configurations
+cd python/
+cmsRun TnPTreeProducer_cfg.py isMC=True doTrigger=True era=2025
+### If runs without issues, move to crab submission
+cd ../crab/
+python3 tnpCrabSubmit_Winter25.py
+### This will create the configurations for crab submission
+crab submit crab_submit_ZEE_RV255_10-v1.py
 ```
-
-### 1b. Install for ultra-legacy (CMSSW\_10\_6\_X, works for UL2017 and UL2018 data/MC)
-
-```bash
-cmsrel CMSSW_10_6_13
-cd CMSSW_10_6_13/src
-cmsenv
-git clone -b RunIIfinal git@github.com:cms-egamma/EgammaAnalysis-TnPTreeProducer.git EgammaAnalysis/TnPTreeProducer
-scram b -j8
-```
-
-### 1c. Install for Run3 (CMSSW\_13\_3\_X, works for 2022 and 2023 data/MC)
-
-```bash
-cmsrel CMSSW_13_3_1
-cd CMSSW_13_3_1/src
-cmsenv
-git clone -b Run3_13X git@github.com:cms-egamma/EgammaAnalysis-TnPTreeProducer.git EgammaAnalysis/TnPTreeProducer
-scram b -j8
-```
-
-### 2. Try-out
-You can find the cmsRun executable in EgammaAnalysis/TnPTreeProducer/python:
-```bash
-cd EgammaAnalysis/TnPTreeProducer/python/
-cmsRun TnPTreeProducer_cfg.py isMC=True doTrigger=True era=UL2018
-```
-Check [TnPTreeProducer\_cfg.py](python/TnPTreeProducer_cfg.py) for all available options. Update the code if you need to implement custom-made recipes.
-
-Test files can be defined in [python/etc/tnpInputTestFiles\_cff.py](python/etc/tnpInputTestFiles_cff.py)
-If you update the code, you can use the ./runTests.py script in the test directory to check for new differences in the 2016, 2017 and 2018 test files.
-
-### 3. Submit jobs
-Check in EgammaAnalysis/TnPTreeProducer//crab the tnpCrabSubmit.py script to submit your jobs using crab
-
-```bash
-source /cvmfs/cms.cern.ch/common/crab-setup.sh
-```
-
-## To make a pull request to this repository
-1. On github fork the package https://github.com/cms-analysis/EgammaAnalysis-TnPTreeProducer
-2. Add the remote
-```bash
-git remote add username-push git@github.com:username/EgammaAnalysis-TnPTreeProducer.git
-```
-3. push commits to fork and then standard pull request process
-```bash
-git push username-push branchname
-```
-
-## Adding new workingpoints
-You can add new electron workingpoints in [python/egmElectronIDModules\_cff.py](python/egmElectronIDModules_cff.py) and new photon workingpoints
-in [python/egmPhotonIDModules\_cff.py](python/egmPhotonIDModules_cff.py). Each new workingpoint added in these python config fragments will
-add a new "passing<WP>" boolean in the electron and photon trees respectively. Of course, one can also choose to simply add a variable in
-[python/egmTreesContent\_cff.py](python/egmTreesContent\_cff.py), which might be preferred for MVA variables when you want to have the
-flexibility to explore different workingpoints: you can simply put a cut on these variable in the egm\_tnp\_analysis package.
-
-## Description of variables
-
-Description of some of variables in the output tree is given [here](VariablesInfo.md).
+### Plotting 
