@@ -5,12 +5,12 @@ import glob
 #
 # Example script to submit TnPTreeProducer to crab
 #
-submitVersion = "2024-11-07" # add some date here
+submitVersion = "2025-05-23" # add some date here
 doL1matching  = False
 isAOD = False
 
 defaultArgs   = ['doEleID=False','doPhoID=False','doTrigger=True']
-mainOutputDir = '/store/group/phys_egamma/ssaumya/EGM_BPix_Fix/TnPTuples/%s' % (submitVersion)
+mainOutputDir = '/store/group/phys_egamma/ssaumya/STEAM_22ndMay_2025/TnPTuples/%s' % (submitVersion)
 
 # Logging the current version of TnpTreeProducer here, such that you can find back what the actual code looked like when you were submitting
 os.system('mkdir -p /eos/cms/%s' % mainOutputDir)
@@ -31,7 +31,7 @@ config.JobType.psetName                = '../python/TnPTreeProducer_cfg.py'
 config.JobType.sendExternalFolder      = True
 config.JobType.allowUndistributedCMSSW = True
 
-config.Data.userInputFiles             = ['root://eosuser.cern.ch//eos/cms/store/group/phys_egamma/ssaumya/EGM_BPix_Fix/MINIAOD_Prime/MINIAOD_Prime_6.root']
+config.Data.userInputFiles             = ['root://eosuser.cern.ch//eos/cms/store/group/phys_egamma/ssaumya/STEAM_22ndMay_2025/PATstep_MINIAOD_RootFiles/stepPAT_MINIAOD_99.root']
 config.Data.splitting                  = 'FileBased'
 config.Data.publication                = False
 config.Site.storageSite                = 'T2_CH_CERN'
@@ -50,7 +50,8 @@ def getLumiMask(era):
   elif era=='UL2018': return 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'
   elif era=='2022': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions22/Cert_Collisions2022_355100_362760_Golden.json'
   elif era=='2023': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/Cert_Collisions2023_366442_370790_Golden.json'
-  elif era=='2024': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions24/2024G_Golden.json'
+  elif era=='2024': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions24/2024I_Golden.json'
+  elif era=='2025': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions25/DCSOnly_JSONS/dailyDCSOnlyJSON/Collisions25_13p6TeV_Latest.json'
 
 #
 # Submit command
@@ -63,7 +64,7 @@ crab_sub = open("crab_sub.sh", "w")
 crab_status = open("crab_status.sh", "w")
 crab_resub = open("crab_resub.sh", "w")
 crab_merge = open("crab_merge.sh", "w")
-path = "/eos/cms/store/group/phys_egamma/ssaumya/EGM_BPix_Fix/TnPTuples/"
+path = "/eos/cms/store/group/phys_egamma/ssaumya/STEAM_22ndMay_2025/TnPTuples/"
 
 def submit(config, requestName, sample, era, json, extraParam=[]):
   isMC                        = 'SIM' in sample
@@ -102,18 +103,11 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
     p.join()
     #submit(config, requestName, sample, era, getLumiMask(era), extraParam) # print the config files
 
-#
 # List of samples to submit, with eras
-# Here the default data/MC for UL and rereco are given (taken based on the release environment)
-# If you would switch to AOD, don't forget to add 'isAOD=True' to the defaultArgs!
-#
-#from EgammaAnalysis.TnPTreeProducer.cmssw_version import isReleaseAbove
-#if isReleaseAbove(13,0):
-
-eraData = '2024'
+eraData = '2025'
 
 # Input
-dirName = "/eos/cms/store/group/phys_egamma/ssaumya/EGM_BPix_Fix/PATstep_MINIAOD_RootFiles/"
+dirName = "/eos/cms/store/group/phys_egamma/ssaumya/STEAM_22ndMay_2025/PATstep_MINIAOD_RootFiles/"
 fList = filter(os.path.isfile, glob.glob(dirName + "*.root"))
 fileList = []
 for f in fList:
@@ -122,4 +116,4 @@ for f in fList:
 print(fileList)
 #fileList = "root://cms-xrd-global.cern.ch//store/data/Run2024G/EGamma0/MINIAOD/PromptReco-v1/000/383/812/00000/3d7350c9-6a04-4b00-9a11-29e8ac6c488d.root"
 
-submitWrapper('Private_MINIAOD', fileList, eraData)
+submitWrapper('Private_MINIAOD_2025', fileList, eraData)
