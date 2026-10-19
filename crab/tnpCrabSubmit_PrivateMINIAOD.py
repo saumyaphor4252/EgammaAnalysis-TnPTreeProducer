@@ -5,12 +5,12 @@ import glob
 #
 # Example script to submit TnPTreeProducer to crab
 #
-submitVersion = "2025-05-23" # add some date here
+submitVersion = "2026-14-10" # 14th October
 doL1matching  = False
 isAOD = False
 
 defaultArgs   = ['doEleID=False','doPhoID=False','doTrigger=True']
-mainOutputDir = '/store/group/phys_egamma/ssaumya/STEAM_22ndMay_2025/TnPTuples/%s' % (submitVersion)
+mainOutputDir = '/store/group/phys_egamma/ssaumya/NGT_Studies_2026/TnPTuples/%s' % (submitVersion)
 
 # Logging the current version of TnpTreeProducer here, such that you can find back what the actual code looked like when you were submitting
 os.system('mkdir -p /eos/cms/%s' % mainOutputDir)
@@ -52,6 +52,7 @@ def getLumiMask(era):
   elif era=='2023': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions23/Cert_Collisions2023_366442_370790_Golden.json'
   elif era=='2024': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions24/2024I_Golden.json'
   elif era=='2025': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions25/DCSOnly_JSONS/dailyDCSOnlyJSON/Collisions25_13p6TeV_Latest.json'
+  elif era=='2026': return 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions26/Cert_Collisions2026_401624_403937_golden.json'
 
 #
 # Submit command
@@ -64,7 +65,7 @@ crab_sub = open("crab_sub.sh", "w")
 crab_status = open("crab_status.sh", "w")
 crab_resub = open("crab_resub.sh", "w")
 crab_merge = open("crab_merge.sh", "w")
-path = "/eos/cms/store/group/phys_egamma/ssaumya/STEAM_22ndMay_2025/TnPTuples/"
+path = "/eos/cms/store/group/phys_egamma/ssaumya/NGT_Studies_2026/TnPTuples/"
 
 def submit(config, requestName, sample, era, json, extraParam=[]):
   isMC                        = 'SIM' in sample
@@ -107,7 +108,7 @@ def submitWrapper(requestName, sample, era, extraParam=[]):
 eraData = '2025'
 
 # Input
-dirName = "/eos/cms/store/group/phys_egamma/ssaumya/STEAM_22ndMay_2025/PATstep_MINIAOD_RootFiles/"
+dirName = "/eos/cms/store/group/phys_egamma/ssaumya/NGT_Studies_2026"
 fList = filter(os.path.isfile, glob.glob(dirName + "*.root"))
 fileList = []
 for f in fList:
@@ -116,4 +117,4 @@ for f in fList:
 print(fileList)
 #fileList = "root://cms-xrd-global.cern.ch//store/data/Run2024G/EGamma0/MINIAOD/PromptReco-v1/000/383/812/00000/3d7350c9-6a04-4b00-9a11-29e8ac6c488d.root"
 
-submitWrapper('Private_MINIAOD_2025', fileList, eraData)
+submitWrapper('Private_MINIAOD_2026', fileList, eraData)

@@ -106,3 +106,9 @@ filesMiniAOD_2025 = {
     #'data' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/data/Run2024G/EGamma0/MINIAOD/PromptReco-v1/000/383/812/00000/3d7350c9-6a04-4b00-9a11-29e8ac6c488d.root')
     'data' : cms.untracked.vstring('file:/afs/cern.ch/work/s/ssaumya/private/Egamma/STEAM_23rdMay2025/CMSSW_15_0_5/src/stepMINI.root')
     }
+
+filesMiniAOD_2026 = {
+    'mc' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/relval/CMSSW_20_0_0/RelValZEE_14/MINIAODSIM/150X_mcRun4_realistic_v1_STD_D121_RecycledGEN_noPU_16Aug26-v4/2590000/06d028a0-9e85-43d0-b40b-1a44997fb482.root'),
+    'data' : cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/data/Run2026D/EGamma0/MINIAOD/PromptReco-v1/000/403/937/00000/b8c9b514-9ffb-4250-b8fe-249a1c080fb8.root')
+    #'data' : cms.untracked.vstring('file:/afs/cern.ch/work/s/ssaumya/private/Egamma/STEAM_23rdMay2025/CMSSW_15_0_5/src/stepMINI.root')
+    }
